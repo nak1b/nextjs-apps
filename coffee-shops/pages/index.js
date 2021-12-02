@@ -1,7 +1,8 @@
-import { useState, useEffect } from  'react';
+import { useState, useEffect, useContext } from  'react';
 import Head from 'next/head';
 import Image from 'next/image';
 
+import { StoreContext, ACTION_TYPES } from './_app';
 import styles from '../styles/Home.module.css';
 import Banner from '../components/banner';
 import Card from '../components/card';
@@ -19,9 +20,8 @@ export async function getStaticProps(context) {
 };
 
 export default function Home(props) {
-  const { isLoading, latLong, locationErrorMsg, handleTrackLocation } = useTrackLocation();
-
-  const [storesNearMe, setStoresNearMe] = useState([]);
+  const { isLoading, locationErrorMsg, handleTrackLocation } = useTrackLocation();
+  const { latLong, dispatch, state } = useContext(StoreContext);
   const [storesNearMeError, setStoresNearMeError] = useState(null);
 
   const handleBannerButtonClick = () => {
@@ -32,7 +32,10 @@ export default function Home(props) {
     const fetchStores = async () => {
       try {
         const stores = await fetchCoffeeStores(latLong, 30);
-        setStoresNearMe(stores);
+        dispatch({
+          type: ACTION_TYPES.SET_COFFEE_STORES,
+          payload: stores
+        });
       } catch(error) {
         setStoresNearMeError(error.message);
       }
@@ -41,7 +44,7 @@ export default function Home(props) {
     if (latLong) {
       fetchStores();
     }
-  }, [latLong]);
+  }, [latLong, dispatch]);
 
   return (
     <div className={styles.container}>
@@ -62,11 +65,11 @@ export default function Home(props) {
           <Image alt="hero image" src="/static/hero-image.png" height={400} width={700} />
         </div>
 
-        { storesNearMe > 0 && (
+        { state.coffeeStores.length > 0 && (
           <div className={styles.sectionWrapper}>
             <h2 className={styles.heading2}>Stores Nearby</h2>
             <div className={styles.cardLayout}>
-              {storesNearMe.map(store => (
+              {state.coffeeStores.map(store => (
                 <Card
                   className={styles.card}
                   key={store.id}
