@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from  'react';
 import Head from 'next/head';
 import Image from 'next/image';
 
-import { StoreContext, ACTION_TYPES } from './_app';
+import { StoreContext, ACTION_TYPES } from '../store/store-context';
 import styles from '../styles/Home.module.css';
 import Banner from '../components/banner';
 import Card from '../components/card';
@@ -21,7 +21,7 @@ export async function getStaticProps(context) {
 
 export default function Home(props) {
   const { isLoading, locationErrorMsg, handleTrackLocation } = useTrackLocation();
-  const { latLong, dispatch, state } = useContext(StoreContext);
+  const { dispatch, state: { latLong, coffeeStores } } = useContext(StoreContext);
   const [storesNearMeError, setStoresNearMeError] = useState(null);
 
   const handleBannerButtonClick = () => {
@@ -65,11 +65,11 @@ export default function Home(props) {
           <Image alt="hero image" src="/static/hero-image.png" height={400} width={700} />
         </div>
 
-        { state.coffeeStores.length > 0 && (
+        { coffeeStores.length > 0 && (
           <div className={styles.sectionWrapper}>
             <h2 className={styles.heading2}>Stores Nearby</h2>
             <div className={styles.cardLayout}>
-              {state.coffeeStores.map(store => (
+              {coffeeStores.map(store => (
                 <Card
                   className={styles.card}
                   key={store.id}
