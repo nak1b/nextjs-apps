@@ -63,7 +63,7 @@ export default function Store(props) {
           <div className={styles.nameWrapper}>
             <p className={styles.name}>{name}</p>
           </div>
-          <Image src={imgUrl || 'https://images.unsplash.com/photo-1504753793650-d4a2b783c15e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80'} alt="store image" width={600} height={360} className={styles.storeImg} />
+          <Image src={imgUrl} alt="store image" width={600} height={360} className={styles.storeImg} />
         </div>
         <div className={classnames("glass", styles.col2)}>
           <div className={styles.iconWrapper}>

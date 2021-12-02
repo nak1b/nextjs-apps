@@ -8,10 +8,12 @@ Sample application created to learn nextjs.
 Create `.env.local` file on root of the project and add following content into the file.
 
 ```
-FOURSQUARE_AUTH_TOKEN=YOUR_AUTH_TOKEN
+FOURSQUARE_AUTH_TOKEN=XXX
+UNSPLASH_ACCESS_KEY=XXX
 ```
 
-Get your token from `https://foursquare.com/developers/projects/`
+- Get your foursquare token from `https://foursquare.com/developers/projects/`
+- Get unsplash access key from `https://unsplash.com/oauth/applications`
 
 
 ### Running the project
