@@ -38,10 +38,10 @@ export default function Home(props) {
               {props.stores.map(store => (
                 <Card
                   className={styles.card}
-                  key={store.fsq_id}
+                  key={store.id}
                   name={store.name}
                   imageUrl={store.imgUrl}
-                  href={`/store/${store.fsq_id}`}
+                  href={`/store/${store.id}`}
                 />
               ))}
             </div>

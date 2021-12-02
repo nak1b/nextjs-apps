@@ -4,14 +4,6 @@ const unsplash = createApi({
   accessKey: process.env.UNSPLASH_ACCESS_KEY
 });
 
-unsplash.search.getPhotos({
-  query: 'cat',
-  page: 1,
-  perPage: 10,
-  color: 'green',
-  orientation: 'portrait',
-});
-
 const getCoffeeStorePhotos = async () => {
   const unsplashResonse = await unsplash.search.getPhotos({
     query: 'coffee shop',
@@ -42,7 +34,10 @@ export const fetchCoffeeStores = async () => {
   const storeImages = await getCoffeeStorePhotos();
 
   return data.results.map((item, i) => ({
-    ...item,
+    id: item.fsq_id,
+    name: item.name,
+    address: item.location?.address,
+    neighborhood: item.location?.neighborhood?.[0] || null,
     imgUrl: storeImages[i]
   }));
 };

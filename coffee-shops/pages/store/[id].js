@@ -13,7 +13,7 @@ export async function getStaticProps({ params }) {
   return {
     props: {
       store: storesData.find(store => {
-        return store.fsq_id.toString() === params.id
+        return store.id.toString() === params.id
       })
     }
   };
@@ -24,7 +24,7 @@ export async function getStaticPaths() {
 
   const paths = storesData.map(store => {
     return {
-      params: { id: store.fsq_id.toString() }
+      params: { id: store.id.toString() }
     }
   })
   
@@ -45,8 +45,7 @@ export default function Store(props) {
     return <div>Loading...</div>
   }
 
-  const { name, location, imgUrl } = props.store;
-  const neighborhood = location?.neighborhood?.[0];
+  const { address, name, neighborhood, imgUrl } = props.store;
 
   return (
     <div className={styles.laylout}>
@@ -57,7 +56,7 @@ export default function Store(props) {
         <div className={styles.col1}>
           <div className={styles.backToHomeLink}>
             <Link href="/">
-              <a>Back to home</a>
+              <a>← Back to home</a>
             </Link>
           </div>
           <div className={styles.nameWrapper}>
@@ -68,7 +67,7 @@ export default function Store(props) {
         <div className={classnames("glass", styles.col2)}>
           <div className={styles.iconWrapper}>
             <Image src="/static/icons/places.svg" alt="icon" height={24} width={24} />
-            <p className={styles.text}>{location.address}</p>
+            <p className={styles.text}>{address}</p>
           </div>
           { neighborhood && (
             <div className={styles.iconWrapper}>
