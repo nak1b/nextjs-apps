@@ -31,11 +31,14 @@ export default function Home(props) {
   useEffect(() => {
     const fetchStores = async () => {
       try {
-        const stores = await fetchCoffeeStores(latLong, 30);
+        const response = await fetchCoffeeStores(`/api/getCoffeeStoresByLocation?latLong=${latLong}&limit=30`);
+        const stores = await response.json();
+
         dispatch({
           type: ACTION_TYPES.SET_COFFEE_STORES,
           payload: stores
         });
+        setStoresNearMeError(null);
       } catch(error) {
         setStoresNearMeError(error.message);
       }
