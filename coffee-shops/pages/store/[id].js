@@ -99,8 +99,23 @@ export default function Store(initialProps) {
     }
   }, [initialProps.store, id, coffeeStores]);
 
-  const handleUpVote = () => {
-    setVotingCount(v => v + 1)
+  const handleUpVote = async () => {
+    try {
+      const res = await fetch('/api/favoriteCoffeeStoreById', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id })
+      });
+      const dbStore = await res.json();
+     
+      if(dbStore?.length) {
+        setVotingCount(v => v + 1)
+      }
+    } catch(err) {
+      console.log('Error updating store votes', err)
+    }
   };
 
   if (router.isFallback) {

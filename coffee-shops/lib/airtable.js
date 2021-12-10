@@ -6,7 +6,10 @@ const base = new Airtable({
 export const tables = base('coffee-stores');
 
 export const getMinifiedRecords = (recordsData) => {
-  const records = recordsData.map(record => ({ ...record.fields }));
+  const records = recordsData.map(record => ({
+    recordId: record.id,
+    ...record.fields
+  }));
   return records;
 };
 
