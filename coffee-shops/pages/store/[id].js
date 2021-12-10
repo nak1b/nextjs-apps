@@ -121,8 +121,12 @@ export default function Store(initialProps) {
   if (router.isFallback) {
     return <div>Loading...</div>
   };
+
+  if (error) {
+    return <div>Oops! Something went wrong retrieving coffee stores.</div>
+  }
  
-  const { address, name, neighborhood, imgUrl, votes } = coffeeStore;
+  const { address, name, neighborhood, imgUrl } = coffeeStore;
 
   return (
     <div className={styles.laylout}>
