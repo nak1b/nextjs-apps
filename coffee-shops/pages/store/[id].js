@@ -46,13 +46,41 @@ export default function Store(initialProps) {
   const router = useRouter();
   const id = router?.query?.id;
 
+  const handleCreateStore = async (storeData) => {
+    const { id, name, address, neighborhood, votes, imgUrl } = storeData;
+
+    try {
+      const res = await fetch('/api/createCoffeeStore', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          id,
+          name,
+          imgUrl,
+          votes: votes ?? 0,
+          address: address ?? '',
+          neighborhood: neighborhood ?? ''
+        })
+      });
+      const dbStore = await res.json();
+
+    } catch(err) {
+      console.log('Error creating store', err)
+    }
+  }
+
   useEffect(() => {
     if (isEmpty(initialProps.store)) {
-      const findStoreById = coffeeStores.find(store => {
+      const storeFromContext = coffeeStores.find(store => {
         return store.id.toString() === id
       });
 
-      setCoffeeStore(findStoreById ?? {});
+      if (storeFromContext) {
+        setCoffeeStore(storeFromContext ?? {});
+        handleCreateStore(storeFromContext);
+      }
     }
   }, [initialProps.store, id, coffeeStores]);
 
@@ -64,7 +92,7 @@ export default function Store(initialProps) {
     return <div>Loading...</div>
   };
  
-  const { address, name, neighborhood, imgUrl } = coffeeStore;
+  const { address, name, neighborhood, imgUrl, votes } = coffeeStore;
 
   return (
     <div className={styles.laylout}>
@@ -96,7 +124,7 @@ export default function Store(initialProps) {
           )}
           <div className={styles.iconWrapper}>
             <Image src="/static/icons/star.svg" alt="icon" height={24} width={24} />
-            <p className={styles.text}>1</p>
+            <p className={styles.text}>{votes ?? 0}</p>
           </div>
 
           <button className={styles.upvoteButton} onClick={handleUpVote}>

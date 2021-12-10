@@ -9,7 +9,7 @@ const createCoffeeStore = async (req, res) => {
     return;
   }
 
-  const { id, name, address, neighbourhood, votes, imgUrl } = body;
+  const { id, name, address, neighborhood, votes, imgUrl } = body;
 
   if (!id) {
     res.status(400);
@@ -41,7 +41,7 @@ const createCoffeeStore = async (req, res) => {
           id,
           name,
           address,
-          neighbourhood,
+          neighborhood,
           votes,
           imgUrl
         }
