@@ -42,6 +42,7 @@ export async function getStaticPaths() {
 export default function Store(initialProps) {
   const { state: { coffeeStores } } = useContext(StoreContext);
   const [coffeeStore, setCoffeeStore] = useState(initialProps.store ?? {});
+  const [votingCount, setVotingCount] = useState(0);
 
   const router = useRouter();
   const id = router?.query?.id;
@@ -88,7 +89,7 @@ export default function Store(initialProps) {
   }, [initialProps.store, id, coffeeStores]);
 
   const handleUpVote = () => {
-
+    setVotingCount(v => v + 1)
   };
 
   if (router.isFallback) {
@@ -127,7 +128,7 @@ export default function Store(initialProps) {
           )}
           <div className={styles.iconWrapper}>
             <Image src="/static/icons/star.svg" alt="icon" height={24} width={24} />
-            <p className={styles.text}>{votes ?? 0}</p>
+            <p className={styles.text}>{votingCount}</p>
           </div>
 
           <button className={styles.upvoteButton} onClick={handleUpVote}>
