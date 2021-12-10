@@ -1,11 +1,15 @@
 ## NextJS Coffee Stores App
-Sample application created to learn nextjs.
+Application to statically generate cofee stores in Toronto and also allow fetching coffee stores nearby and allow voting the stores. Store data is saved on Airtable.
+
+### Demo Link
+https://coffee-stores.vercel.app/
 
 ### Stack
-- NextJS
-- Airtable for CMS
+- [NextJS](https://nextjs.org/)
+- [Airtable](https://airtable.com/) for CMS
+- [Vercel](https://vercel.com/) for Deployment
 
-### Setup FourSquare API
+### Setup Enviromental Variables
 
 Create `.env.local` file on root of the project and add following content into the file.
 
