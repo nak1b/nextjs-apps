@@ -81,6 +81,9 @@ export default function Store(initialProps) {
         setCoffeeStore(storeFromContext ?? {});
         handleCreateStore(storeFromContext);
       }
+    } else {
+      // SSG
+      handleCreateStore(initialProps.store);
     }
   }, [initialProps.store, id, coffeeStores]);
 
