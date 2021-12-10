@@ -4,11 +4,12 @@ import Link from 'next/link';
 import Head from 'next/head';
 import Image from 'next/image';
 import classnames from 'classnames';
+import useSWR from 'swr';
 
 import { StoreContext } from '../../store/store-context';
 import styles from '../../styles/store.module.css';
 import { fetchCoffeeStores } from '../../lib/coffee-stores';
-import { isEmpty } from '../../utils';
+import { isEmpty, fetcher } from '../../utils';
 
 export async function getStaticProps({ params }) {
   const storesData = await fetchCoffeeStores();
@@ -47,6 +48,8 @@ export default function Store(initialProps) {
   const router = useRouter();
   const id = router?.query?.id;
 
+  const { data, error } = useSWR(`/api/getCoffeeStoreById?id=${id}`, fetcher);
+
   const handleCreateStore = async (storeData) => {
     const { id, name, address, neighborhood, votes, imgUrl } = storeData;
 
@@ -71,6 +74,14 @@ export default function Store(initialProps) {
       console.log('Error creating store', err)
     }
   }
+
+  useEffect(() => {
+    if (data?.length) {
+      const store = data[0];
+      setCoffeeStore(store);
+      setVotingCount(store.votes);
+    }
+  }, [data]);
 
   useEffect(() => {
     if (isEmpty(initialProps.store)) {
