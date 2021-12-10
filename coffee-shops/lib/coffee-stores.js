@@ -8,8 +8,7 @@ const getCoffeeStorePhotos = async () => {
   const unsplashResonse = await unsplash.search.getPhotos({
     query: 'coffee shop',
     page: 1,
-    perPage: 40,
-    orientation: 'portrait',
+    perPage: 40
   });
   const unsplashResults = unsplashResonse.response.results;
   const images = unsplashResults.map(result => result.urls.small)
